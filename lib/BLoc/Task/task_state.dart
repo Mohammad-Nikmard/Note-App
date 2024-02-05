@@ -11,3 +11,5 @@ class TaskReponseState extends TaskState {
 
   TaskReponseState(this.taskTypeList);
 }
+
+class TaskAddedState extends TaskState {}

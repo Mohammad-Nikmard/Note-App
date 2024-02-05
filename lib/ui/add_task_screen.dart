@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_pickerr/time_pickerr.dart';
+import 'package:todo/BLoC/Home/home_bloc.dart';
+import 'package:todo/BLoc/Home/home_event.dart';
 import 'package:todo/BLoc/Task/task_bloc.dart';
 import 'package:todo/BLoc/Task/task_event.dart';
 import 'package:todo/BLoc/Task/task_state.dart';
@@ -21,7 +23,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        var bloc = TaskBloc(locator.get());
+        var bloc = TaskBloc(locator.get(), locator.get());
         bloc.add(TaskTypeListEvent());
         return bloc;
       },
@@ -36,25 +38,29 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           }
 
           if (state is TaskReponseState) {
-            return MainBody(taskTypeList: state.taskTypeList);
+            return _MainBody(taskTypeList: state.taskTypeList);
           }
-          return Text("sddsffsdsfds");
+          return const Text("sddsffsdsfds");
         },
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is TaskAddedState) {
+            Navigator.pop(context);
+          }
+        },
       ),
     );
   }
 }
 
-class MainBody extends StatefulWidget {
-  const MainBody({super.key, required this.taskTypeList});
+class _MainBody extends StatefulWidget {
+  const _MainBody({super.key, required this.taskTypeList});
   final List<TaskType> taskTypeList;
 
   @override
-  State<MainBody> createState() => _MainBodyState();
+  State<_MainBody> createState() => _MainBodyState();
 }
 
-class _MainBodyState extends State<MainBody> {
+class _MainBodyState extends State<_MainBody> {
   FocusNode? _focusNode1;
   FocusNode? _focusNode2;
 
@@ -62,6 +68,7 @@ class _MainBodyState extends State<MainBody> {
   final TextEditingController _subTitleContorller = TextEditingController();
 
   int selectedIndex = 0;
+  DateTime? time;
 
   @override
   void initState() {
@@ -201,7 +208,11 @@ class _MainBodyState extends State<MainBody> {
                   fontFamily: "SM",
                   color: MyColors.greenColor,
                 ),
-                onPositivePressed: (context, time) {},
+                onPositivePressed: (context, time) {
+                  setState(() {
+                    this.time = time;
+                  });
+                },
                 onNegativePressed: (context) {},
               ),
             ),
@@ -241,7 +252,13 @@ class _MainBodyState extends State<MainBody> {
                   backgroundColor: MyColors.greenColor,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.read<TaskBloc>().add(AddTaskEvent(
+                        _titleController.text,
+                        _subTitleContorller.text,
+                        time!,
+                        widget.taskTypeList[selectedIndex],
+                      ));
+                  context.read<HomeBloc>().add(HomeShowListEvent());
                 },
                 child: const Text(
                   "ایجاد تسک",

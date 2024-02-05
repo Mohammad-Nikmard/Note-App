@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:todo/BLoC/Home/home_bloc.dart';
 import 'package:todo/DI/service_locator.dart';
+import 'package:todo/data/model/task.dart';
 import 'package:todo/data/model/task_type.dart';
 import 'package:todo/ui/home_screen.dart';
 
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TaskTypeAdapter());
+  Hive.registerAdapter(TaskAdapter());
+  await Hive.openBox<Task>('TaskBox');
 
   initServiceLocator();
 
@@ -18,9 +23,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: BlocProvider(
+        create: (context) => locator.get<HomeBloc>(),
+        child: const HomeScreen(),
+      ),
     );
   }
 }

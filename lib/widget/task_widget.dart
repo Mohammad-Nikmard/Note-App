@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todo/constants/constants.dart';
+import 'package:todo/data/model/task.dart';
 import 'package:todo/ui/edit_task_screen.dart';
+import 'package:todo/util/dateTime_extension.dart';
 
-class TaskWidget extends StatelessWidget {
-  const TaskWidget({super.key});
+class TaskWidget extends StatefulWidget {
+  const TaskWidget({super.key, required this.taskItem});
+  final Task taskItem;
 
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,74 +28,84 @@ class TaskWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 32,
-                      child: Row(
-                        children: [
-                          Transform.scale(
-                            scale: 1.2,
-                            child: Checkbox(
-                              value: true,
-                              onChanged: (onchanged) {},
-                              activeColor: MyColors.greenColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+          child: Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 32,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Transform.scale(
+                              scale: 1.2,
+                              child: Checkbox(
+                                value: true,
+                                onChanged: (onchanged) {},
+                                activeColor: MyColors.greenColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                checkColor: Colors.white,
                               ),
-                              checkColor: Colors.white,
                             ),
+                            Flexible(
+                              child: Text(
+                                widget.taskItem.title,
+                                style: const TextStyle(
+                                  fontFamily: "SM",
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          widget.taskItem.subtitle,
+                          textDirection: TextDirection.rtl,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: "SM",
                           ),
-                          const Spacer(),
-                          const Text(
-                            "آموزش فلاتر",
-                            style: TextStyle(
-                              fontFamily: "SM",
-                              fontWeight: FontWeight.bold,
-                            ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TimeChip(
+                            time: widget.taskItem.time,
+                          ),
+                          const SizedBox(width: 15),
+                          GestureDetector(
+                            child: const EditChip(),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const EditTaskScreen(),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    const Text(
-                      "انجام تسک مورد نظر",
-                      style: TextStyle(
-                        fontFamily: "SM",
-                      ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const TimeChip(),
-                        const SizedBox(width: 15),
-                        GestureDetector(
-                          child: const EditChip(),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const EditTaskScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Image.asset("images/hard_working.png"),
-            ],
+                const SizedBox(width: 10),
+                Image.asset(widget.taskItem.taskType.image),
+              ],
+            ),
           ),
         ),
       ),
@@ -96,7 +114,8 @@ class TaskWidget extends StatelessWidget {
 }
 
 class TimeChip extends StatelessWidget {
-  const TimeChip({super.key});
+  const TimeChip({super.key, required this.time});
+  final DateTime time;
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +133,20 @@ class TimeChip extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
-              "11:00",
-              style: TextStyle(
-                fontFamily: "SM",
-                fontSize: 10,
-                color: Colors.white,
-              ),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  "${time.converToHour()}:${time.converToMinute()}",
+                  style: const TextStyle(
+                    fontFamily: "SM",
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
             Image.asset(
               "images/icon_time.png",
@@ -157,7 +183,7 @@ class EditChip extends StatelessWidget {
               "ویرایش",
               style: TextStyle(
                 fontFamily: "SM",
-                fontSize: 10,
+                fontSize: 12,
                 color: MyColors.greenColor,
               ),
             ),

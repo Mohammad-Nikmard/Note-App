@@ -80,7 +80,12 @@ class MainBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Dismissible(
                     key: UniqueKey(),
-                    child: TaskWidget(taskItem: getList[index]),
+                    child: BlocProvider(
+                      create: (context) => locator.get<HomeBloc>(),
+                      child: TaskWidget(
+                        taskItem: getList[index],
+                      ),
+                    ),
                     onDismissed: (direction) {
                       context.read<HomeBloc>().add(DeleteItemEvent(index));
                     },

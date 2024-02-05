@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/BLoC/Home/home_bloc.dart';
+import 'package:todo/BLoc/Home/home_event.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/data/model/task.dart';
 import 'package:todo/ui/edit_task_screen.dart';
@@ -13,22 +16,29 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
+  bool isTapped = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Container(
-        height: 132,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            isTapped = !isTapped;
+          });
+          context.read<HomeBloc>().add(CheckBoxItem(isTapped, widget.taskItem));
+        },
+        child: Container(
+          height: 132,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          child: Flexible(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -47,7 +57,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             Transform.scale(
                               scale: 1.2,
                               child: Checkbox(
-                                value: true,
+                                value: widget.taskItem.isDone,
                                 onChanged: (onchanged) {},
                                 activeColor: MyColors.greenColor,
                                 shape: RoundedRectangleBorder(

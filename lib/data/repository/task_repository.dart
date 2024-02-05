@@ -6,6 +6,7 @@ abstract class ITaskRepository {
   Future<void> addItem(Task taskItem);
   Future<List<Task>> getItems();
   Future<void> deleteItem(int index);
+  Future<void> saveIsDone(Task taskItem, bool isTrue);
 }
 
 class TaskHiveRepository extends ITaskRepository {
@@ -23,5 +24,10 @@ class TaskHiveRepository extends ITaskRepository {
   @override
   Future<void> deleteItem(int index) async {
     await _datasource.deleteItem(index);
+  }
+
+  @override
+  Future<void> saveIsDone(Task taskItem, bool isTrue) async {
+    await _datasource.saveIsDone(taskItem, isTrue);
   }
 }

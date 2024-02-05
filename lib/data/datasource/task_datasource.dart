@@ -5,6 +5,7 @@ abstract class ITaskDatasource {
   Future<void> addTasks(Task taskItem);
   Future<List<Task>> getItems();
   Future<void> deleteItem(int index);
+  Future<void> saveIsDone(Task taskItem, bool isTrue);
 }
 
 class TaskHiveDatasource extends ITaskDatasource {
@@ -22,5 +23,11 @@ class TaskHiveDatasource extends ITaskDatasource {
   @override
   Future<void> deleteItem(int index) async {
     await box.deleteAt(index);
+  }
+
+  @override
+  Future<void> saveIsDone(Task taskItem, bool isTrue) async {
+    taskItem.isDone = isTrue;
+    taskItem.save();
   }
 }

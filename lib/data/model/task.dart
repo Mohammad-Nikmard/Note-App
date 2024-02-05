@@ -3,7 +3,7 @@ import 'package:todo/data/model/task_type.dart';
 part 'task.g.dart';
 
 @HiveType(typeId: 0)
-class Task {
+class Task extends HiveObject {
   @HiveField(0)
   String title;
   @HiveField(1)

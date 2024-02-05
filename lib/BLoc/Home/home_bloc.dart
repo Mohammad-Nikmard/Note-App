@@ -20,5 +20,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeResponse(taskList));
       },
     );
+
+    on<CheckBoxItem>(
+      (event, emit) async {
+        await _iTaskRepository.saveIsDone(event.taskItem, event.isTapped);
+      },
+    );
   }
 }

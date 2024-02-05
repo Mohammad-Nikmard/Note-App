@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_pickerr/time_pickerr.dart';
+import 'package:todo/BLoc/Task/task_bloc.dart';
+import 'package:todo/BLoc/Task/task_event.dart';
+import 'package:todo/BLoc/Task/task_state.dart';
+import 'package:todo/DI/service_locator.dart';
 import 'package:todo/constants/constants.dart';
-import 'package:todo/widget/task_rype_widget.dart';
+import 'package:todo/data/model/task_type.dart';
+import 'package:todo/widget/task_type_widget.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -11,11 +17,51 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        var bloc = TaskBloc(locator.get());
+        bloc.add(TaskTypeListEvent());
+        return bloc;
+      },
+      child: BlocConsumer<TaskBloc, TaskState>(
+        builder: (context, state) {
+          if (state is TaskLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: MyColors.greenColor,
+              ),
+            );
+          }
+
+          if (state is TaskReponseState) {
+            return MainBody(taskTypeList: state.taskTypeList);
+          }
+          return Text("sddsffsdsfds");
+        },
+        listener: (context, state) {},
+      ),
+    );
+  }
+}
+
+class MainBody extends StatefulWidget {
+  const MainBody({super.key, required this.taskTypeList});
+  final List<TaskType> taskTypeList;
+
+  @override
+  State<MainBody> createState() => _MainBodyState();
+}
+
+class _MainBodyState extends State<MainBody> {
   FocusNode? _focusNode1;
   FocusNode? _focusNode2;
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _subTitleContorller = TextEditingController();
+
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -159,8 +205,30 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 onNegativePressed: (context) {},
               ),
             ),
-            const TaskTypeWidget(),
-            const Spacer(),
+            SizedBox(
+              height: 168,
+              child: ListView.builder(
+                itemCount: widget.taskTypeList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      child: TaskTypeWidget(
+                        taskTypeItem: widget.taskTypeList[index],
+                        index: index,
+                        selectedIndex: selectedIndex,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
               child: ElevatedButton(

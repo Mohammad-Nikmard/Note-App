@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 import 'package:todo/constants/constants.dart';
-import 'package:todo/widget/task_rype_widget.dart';
+import 'package:todo/widget/task_type_widget.dart';
 
 class EditTaskScreen extends StatefulWidget {
   const EditTaskScreen({super.key});
@@ -16,6 +16,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _subTitleContorller = TextEditingController();
+
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -159,8 +161,19 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 onNegativePressed: (context) {},
               ),
             ),
-            const TaskTypeWidget(),
-            const Spacer(),
+            // SizedBox(
+            //   height: 168,
+            //   child: ListView.builder(
+            //     itemCount: 3,
+            //     scrollDirection: Axis.horizontal,
+            //     itemBuilder: (context, index) {
+            //       return TaskTypeWidget(
+            //         index: index,
+            //         selectedIndex: selectedIndex,
+            //       );
+            //     },
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
               child: ElevatedButton(

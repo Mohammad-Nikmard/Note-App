@@ -13,3 +13,5 @@ class TaskReponseState extends TaskState {
 }
 
 class TaskAddedState extends TaskState {}
+
+class TaskEditedState extends TaskState {}

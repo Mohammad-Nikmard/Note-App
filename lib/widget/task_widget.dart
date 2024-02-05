@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/BLoC/Home/home_bloc.dart';
 import 'package:todo/BLoc/Home/home_event.dart';
+import 'package:todo/DI/service_locator.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/data/model/task.dart';
 import 'package:todo/ui/edit_task_screen.dart';
@@ -102,7 +103,12 @@ class _TaskWidgetState extends State<TaskWidget> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const EditTaskScreen(),
+                                  builder: (context) => BlocProvider.value(
+                                    value: locator.get<HomeBloc>(),
+                                    child: EditTaskScreen(
+                                      taskItem: widget.taskItem,
+                                    ),
+                                  ),
                                 ),
                               );
                             },

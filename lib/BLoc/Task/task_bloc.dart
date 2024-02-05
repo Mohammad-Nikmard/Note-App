@@ -26,5 +26,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TaskAddedState());
       },
     );
+    on<EditTaskEvent>(
+      (event, emit) async {
+        emit(TaskLoadingState());
+        await _iTaskRepository.editItem(
+          event.taskItem,
+          event.title,
+          event.subTitle,
+          event.time,
+          event.taskType,
+        );
+        emit(TaskEditedState());
+      },
+    );
   }
 }

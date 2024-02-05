@@ -19,8 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    BlocProvider.of<HomeBloc>(context).add(HomeShowListEvent());
     super.initState();
+    BlocProvider.of<HomeBloc>(context).add(HomeShowListEvent());
   }
 
   @override
@@ -87,7 +87,9 @@ class MainBody extends StatelessWidget {
                       ),
                     ),
                     onDismissed: (direction) {
-                      context.read<HomeBloc>().add(DeleteItemEvent(index));
+                      context
+                          .read<HomeBloc>()
+                          .add(DeleteItemEvent(getList[index]));
                     },
                   );
                 },

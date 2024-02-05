@@ -1,11 +1,14 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/data/model/task.dart';
+import 'package:todo/data/model/task_type.dart';
 
 abstract class ITaskDatasource {
   Future<void> addTasks(Task taskItem);
   Future<List<Task>> getItems();
-  Future<void> deleteItem(int index);
+  Future<void> deleteItem(Task taskItem);
   Future<void> saveIsDone(Task taskItem, bool isTrue);
+  Future<void> editItem(Task taskItem, String title, String subTitle,
+      DateTime time, TaskType type);
 }
 
 class TaskHiveDatasource extends ITaskDatasource {
@@ -21,13 +24,24 @@ class TaskHiveDatasource extends ITaskDatasource {
   }
 
   @override
-  Future<void> deleteItem(int index) async {
-    await box.deleteAt(index);
+  Future<void> deleteItem(Task taskItem) async {
+    await taskItem.delete();
   }
 
   @override
   Future<void> saveIsDone(Task taskItem, bool isTrue) async {
     taskItem.isDone = isTrue;
+    taskItem.save();
+  }
+
+  @override
+  Future<void> editItem(Task taskItem, String title, String subTitle,
+      DateTime time, TaskType type) async {
+    taskItem.title = title;
+    taskItem.subtitle = subTitle;
+    taskItem.time = time;
+    taskItem.taskType = type;
+
     taskItem.save();
   }
 }

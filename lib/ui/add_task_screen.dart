@@ -40,7 +40,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           if (state is TaskReponseState) {
             return _MainBody(taskTypeList: state.taskTypeList);
           }
-          return const Text("sddsffsdsfds");
+          return const Text("");
         },
         listener: (context, state) {
           if (state is TaskAddedState) {
@@ -90,186 +90,191 @@ class _MainBodyState extends State<_MainBody> {
     return Scaffold(
       backgroundColor: MyColors.backgroundScreenColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-              child: Directionality(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextField(
+                    controller: _titleController,
+                    onTap: () {
+                      setState(() {
+                        FocusScope.of(context).requestFocus(_focusNode1);
+                      });
+                    },
+                    focusNode: _focusNode1,
+                    style: const TextStyle(
+                      fontFamily: "SM",
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 12),
+                      labelText: "عنوان تسک...",
+                      labelStyle: TextStyle(
+                        fontFamily: "SM",
+                        color: _focusNode1!.hasFocus
+                            ? MyColors.greenColor
+                            : Colors.black,
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: MyColors.greenColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextField(
+                    controller: _subTitleContorller,
+                    focusNode: _focusNode2,
+                    onTap: () {
+                      setState(() {
+                        FocusScope.of(context).requestFocus(_focusNode2);
+                      });
+                    },
+                    maxLines: 4,
+                    style: const TextStyle(
+                      fontFamily: "SM",
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: "توضیحات تسک...",
+                      labelStyle: TextStyle(
+                        fontFamily: "SM",
+                        color: _focusNode2!.hasFocus
+                            ? MyColors.greenColor
+                            : Colors.black,
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: MyColors.greenColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Directionality(
                 textDirection: TextDirection.rtl,
-                child: TextField(
-                  controller: _titleController,
-                  onTap: () {
-                    setState(() {
-                      FocusScope.of(context).requestFocus(_focusNode1);
-                    });
-                  },
-                  focusNode: _focusNode1,
-                  style: const TextStyle(
+                child: CustomHourPicker(
+                  elevation: 2,
+                  title: "زمان مورد نظر خود را انتخاب کنید",
+                  titleStyle: const TextStyle(
                     fontFamily: "SM",
-                    fontSize: 16,
                     color: Colors.black,
                   ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 12),
-                    labelText: "عنوان تسک...",
-                    labelStyle: TextStyle(
-                      fontFamily: "SM",
-                      color: _focusNode1!.hasFocus
-                          ? MyColors.greenColor
-                          : Colors.black,
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.white,
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: MyColors.greenColor,
-                      ),
-                    ),
+                  positiveButtonText: "انتخاب",
+                  negativeButtonText: "کنسل",
+                  negativeButtonStyle: const TextStyle(
+                    fontFamily: "SM",
+                    color: Color.fromARGB(255, 197, 39, 28),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: TextField(
-                  controller: _subTitleContorller,
-                  focusNode: _focusNode2,
-                  onTap: () {
+                  positiveButtonStyle: const TextStyle(
+                    fontFamily: "SM",
+                    color: MyColors.greenColor,
+                  ),
+                  onPositivePressed: (context, time) {
                     setState(() {
-                      FocusScope.of(context).requestFocus(_focusNode2);
+                      this.time = time;
                     });
                   },
-                  maxLines: 4,
-                  style: const TextStyle(
-                    fontFamily: "SM",
-                    fontSize: 16,
-                    color: Colors.black,
+                  onNegativePressed: (context) {},
+                ),
+              ),
+              SizedBox(
+                height: 168,
+                child: ListView.builder(
+                  itemCount: widget.taskTypeList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+                        },
+                        child: TaskTypeWidget(
+                          taskTypeItem: widget.taskTypeList[index],
+                          index: index,
+                          selectedIndex: selectedIndex,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(MediaQuery.of(context).size.width, 45),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    )),
+                    backgroundColor: MyColors.greenColor,
                   ),
-                  decoration: InputDecoration(
-                    labelText: "توضیحات تسک...",
-                    labelStyle: TextStyle(
+                  onPressed: () {
+                    context.read<TaskBloc>().add(AddTaskEvent(
+                          _titleController.text,
+                          _subTitleContorller.text,
+                          time!,
+                          widget.taskTypeList[selectedIndex],
+                        ));
+                    context.read<HomeBloc>().add(HomeShowListEvent());
+                  },
+                  child: const Text(
+                    "ایجاد تسک",
+                    style: TextStyle(
                       fontFamily: "SM",
-                      color: _focusNode2!.hasFocus
-                          ? MyColors.greenColor
-                          : Colors.black,
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.white,
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: MyColors.greenColor,
-                      ),
+                      fontSize: 16,
                     ),
                   ),
                 ),
               ),
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: CustomHourPicker(
-                elevation: 2,
-                title: "زمان مورد نظر خود را انتخاب کنید",
-                titleStyle: const TextStyle(
-                  fontFamily: "SM",
-                  color: Colors.black,
-                ),
-                positiveButtonText: "انتخاب",
-                negativeButtonText: "کنسل",
-                negativeButtonStyle: const TextStyle(
-                  fontFamily: "SM",
-                  color: Color.fromARGB(255, 197, 39, 28),
-                ),
-                positiveButtonStyle: const TextStyle(
-                  fontFamily: "SM",
-                  color: MyColors.greenColor,
-                ),
-                onPositivePressed: (context, time) {
-                  setState(() {
-                    this.time = time;
-                  });
-                },
-                onNegativePressed: (context) {},
-              ),
-            ),
-            SizedBox(
-              height: 168,
-              child: ListView.builder(
-                itemCount: widget.taskTypeList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      child: TaskTypeWidget(
-                        taskTypeItem: widget.taskTypeList[index],
-                        index: index,
-                        selectedIndex: selectedIndex,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(MediaQuery.of(context).size.width, 45),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  )),
-                  backgroundColor: MyColors.greenColor,
-                ),
-                onPressed: () {
-                  context.read<TaskBloc>().add(AddTaskEvent(
-                        _titleController.text,
-                        _subTitleContorller.text,
-                        time!,
-                        widget.taskTypeList[selectedIndex],
-                      ));
-                  context.read<HomeBloc>().add(HomeShowListEvent());
-                },
-                child: const Text(
-                  "ایجاد تسک",
-                  style: TextStyle(
-                    fontFamily: "SM",
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

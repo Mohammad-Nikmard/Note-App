@@ -5,9 +5,9 @@ abstract class HomeEvent {}
 class HomeShowListEvent extends HomeEvent {}
 
 class DeleteItemEvent extends HomeEvent {
-  int index;
+  Task taskItem;
 
-  DeleteItemEvent(this.index);
+  DeleteItemEvent(this.taskItem);
 }
 
 class CheckBoxItem extends HomeEvent {

@@ -1,16 +1,26 @@
-# todo
+# Todo
 
-A new Flutter project.
 
-## Getting Started
+## Overview 
+A note app written with pure dart language. The user has the ability to choose time, task type, title, subtitle and delete the task if the task is ended. User also has the ability to edit the written task. All the user's tasks will be saved in a NoSQL database so the data is presistant.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
+ - **Main Activity** : Works just like a note app. Lists all the tasks with time, title, subtitle, task type and a checkbox.
+ - **Task Detail** : Each task and its field can be editted.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+   
+## Technologies Used
+ - Language : Dart
+ - Architecture : Bloc
+ - Functional Programming : dartz(Either)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Dependancies 
+  - bloc
+  - flutter_bloc
+  - get_it
+  - hive
+  - hive_flutter
+  - time_pickerr
+

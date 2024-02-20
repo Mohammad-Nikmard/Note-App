@@ -68,6 +68,9 @@ class MainBody extends StatelessWidget {
           );
         },
         backgroundColor: MyColors.greenColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60),
+        ),
         child: Image.asset("images/icon_add.png"),
       ),
       backgroundColor: MyColors.backgroundScreenColor,

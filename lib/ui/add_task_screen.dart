@@ -192,32 +192,29 @@ class _MainBodyState extends State<_MainBody> {
                   ),
                 ),
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: CustomHourPicker(
-                  elevation: 2,
-                  title: "زمان مورد نظر خود را انتخاب کنید",
-                  titleStyle: const TextStyle(
-                    fontFamily: "SM",
-                    color: Colors.black,
-                  ),
-                  positiveButtonText: "انتخاب",
-                  negativeButtonText: "کنسل",
-                  negativeButtonStyle: const TextStyle(
-                    fontFamily: "SM",
-                    color: Color.fromARGB(255, 197, 39, 28),
-                  ),
-                  positiveButtonStyle: const TextStyle(
-                    fontFamily: "SM",
-                    color: MyColors.greenColor,
-                  ),
-                  onPositivePressed: (context, time) {
-                    setState(() {
-                      this.time = time;
-                    });
-                  },
-                  onNegativePressed: (context) {},
+              CustomHourPicker(
+                elevation: 6,
+                title: "زمان مورد نظر خود را انتخاب کنید",
+                titleStyle: const TextStyle(
+                  fontFamily: "SM",
+                  color: Colors.black,
                 ),
+                positiveButtonText: "انتخاب",
+                negativeButtonText: "کنسل",
+                negativeButtonStyle: const TextStyle(
+                  fontFamily: "SM",
+                  color: Color.fromARGB(255, 197, 39, 28),
+                ),
+                positiveButtonStyle: const TextStyle(
+                  fontFamily: "SM",
+                  color: MyColors.greenColor,
+                ),
+                onPositivePressed: (context, time) {
+                  setState(() {
+                    this.time = time;
+                  });
+                },
+                onNegativePressed: (context) {},
               ),
               SizedBox(
                 height: 168,
@@ -269,6 +266,7 @@ class _MainBodyState extends State<_MainBody> {
                     style: TextStyle(
                       fontFamily: "SM",
                       fontSize: 16,
+                      color: Colors.white,
                     ),
                   ),
                 ),

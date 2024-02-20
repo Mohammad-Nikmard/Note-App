@@ -29,12 +29,12 @@ A note app written with pure dart language. The user has the ability to choose t
 ## Project Structure 
  The project follows bloc architecture for the separation of layers:
 
-BLoC : To handle the logic and send state for the unique event being received.
-Data : To handle 3 important layers when working with Database :
-Model : which is the entity of the app.
-DataSource : To work with database (works just like usecases).
-Repositoy : To get data from datasource and handle whether an error occurred or the list has been taken (similar to adapter layer).
-UI : Infrastructure layer that is aware of the bloc and can send certain events to it.
+ - BLoC : To handle the logic and send state for the unique event being received.
+ - Data : To handle 3 important layers when working with Database :
+   - Model : which is the entity of the app.
+   - DataSource : To work with database (works just like usecases).
+   - Repositoy : To get data from datasource and handle whether an error occurred or the list has been taken (similar to adapter layer).
+ - UI : Infrastructure layer that is aware of the bloc and can send certain events to it.
 
 
 ## Project Setup
